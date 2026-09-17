@@ -16,7 +16,7 @@ const projects = selectProjects(
 const pending = new Set(allowlist.filter((a) => a.pending !== undefined).map((a) => a.key))
 
 const description =
-  'Guy Grigsby. Software engineer in Denver. Builds the machinery agentic software runs on: harnesses, runtimes, oversight and compiler-checked edits.'
+  "Guy Grigsby. Software engineer in Denver, working on Aperture, Tailscale's AI gateway, and on the machinery agentic software runs on."
 ---
 
 <!doctype html>
@@ -48,9 +48,12 @@ const description =
 
       <div class="bio">
         <p>
-          Building the machinery agentic software runs on. A harness for the agent loop, a runtime
-          underneath it, a daemon that turns issues into pull requests with nobody watching, and an
-          edit protocol where the compiler is the gate.
+          Working on <a href="https://aperture.tailscale.com/">Aperture</a>, Tailscale's AI gateway.
+        </p>
+        <p>
+          The rest of the time, the machinery agentic software runs on. A harness for the agent
+          loop, a runtime underneath it, a daemon that turns issues into pull requests with nobody
+          watching, and an edit protocol where the compiler is the gate.
         </p>
         <p>
           Before that, security products at HashiCorp. Worked on Vault. Led the launch and scaling
