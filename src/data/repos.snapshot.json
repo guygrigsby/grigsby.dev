@@ -4,29 +4,19 @@
     "blurb": "A semantic edit protocol for Go. Agents query the typechecked workspace and submit compiler-checked mutations instead of editing text.",
     "url": "https://github.com/guygrigsby/agent-go"
   },
-  "gputex": {
-    "title": "gputex",
-    "blurb": "",
-    "url": "https://github.com/guygrigsby/gputex"
+  "autophage": {
+    "title": "autophage",
+    "blurb": "Watches issues on enrolled GitHub repos and runs a sandboxed jess agent under a budget. Output is a PR or a request for approval.",
+    "url": "https://github.com/guygrigsby/autophage"
   },
-  "gyr": {
-    "title": "gyr",
-    "blurb": "The gyrfalcon is the largest falcon. gyr is an agent daemon for for local oversight.",
-    "url": "https://github.com/guygrigsby/gyr"
+  "jess": {
+    "title": "jess",
+    "blurb": "Streaming agent-loop runtime in Go. The leather strap on the falcon's leg.",
+    "url": "https://github.com/guygrigsby/jess"
   },
-  "lmkit": {
-    "title": "lmkit",
-    "blurb": "A small toolkit for training language models from scratch on a single machine: pretrain, anneal, SFT, tokenizer, eval, and experiment tracking.",
-    "url": "https://github.com/guygrigsby/lmkit"
-  },
-  "mlx-stack": {
-    "title": "mlx-stack",
-    "blurb": "Single-daemon supervisor + CLI for local MLX inference",
-    "url": "https://github.com/guygrigsby/mlx-stack"
-  },
-  "nevla": {
-    "title": "nevla",
-    "blurb": "A typed, error-handled front end over Python, with ML constructs as first-class citizens.",
-    "url": "https://github.com/guygrigsby/nevla"
+  "rudy": {
+    "title": "rudy",
+    "blurb": "Coding agent harness in Go. One binary: the model loop, tools, sessions, permissions and plugins, in a terminal, headless or as a server.",
+    "url": "https://github.com/guygrigsby/rudy"
   }
 }

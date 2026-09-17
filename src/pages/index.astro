@@ -1,0 +1,103 @@
+---
+import { allowlist } from '../data/projects'
+import { selectProjects } from '../lib/projects'
+import snapshot from '../data/repos.snapshot.json'
+import '../styles/site.css'
+
+const projects = selectProjects(
+  allowlist.map((a) => a.key),
+  snapshot,
+)
+
+// A pending repo is linked before it is public, so say so rather than hand a
+// visitor a 404 with no explanation.
+const pending = new Set(allowlist.filter((a) => a.pending !== undefined).map((a) => a.key))
+
+const links = [
+  { label: 'github', href: 'https://github.com/guygrigsby' },
+  { label: 'linkedin', href: 'https://www.linkedin.com/in/guygrigsby' },
+  { label: 'x', href: 'https://x.com/usernamevalid' },
+  { label: 'aeryx.ai', href: 'https://aeryx.ai' },
+]
+
+const description =
+  'Guy Grigsby. Software engineer in Denver. Builds the machinery agentic software runs on: harnesses, runtimes, oversight and compiler-checked edits.'
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Guy Grigsby</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0b0c0e" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#faf9f7" media="(prefers-color-scheme: light)" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="canonical" href="https://grigsby.dev/" />
+    <meta property="og:type" content="profile" />
+    <meta property="og:title" content="Guy Grigsby" />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content="https://grigsby.dev/" />
+    <meta name="twitter:card" content="summary" />
+  </head>
+
+  <body>
+    <main>
+      <header>
+        <h1>guy grigsby<span class="caret" aria-hidden="true">▌</span></h1>
+        <p class="role">
+          software engineer · denver · <a href="https://tailscale.com">tailscale</a>
+        </p>
+      </header>
+
+      <div class="bio">
+        <p>
+          Building the machinery agentic software runs on. A harness for the agent loop, a runtime
+          underneath it, a daemon that turns issues into pull requests with nobody watching, and an
+          edit protocol where the compiler is the gate.
+        </p>
+        <p>
+          Before that, security products at HashiCorp. Worked on Vault. Led the launch and scaling
+          of HCP Boundary.
+        </p>
+        <p>
+          Off hours it's amateur ML. Pretraining, fine tuning and LLM-as-judge experiments on a rig
+          that has opinions about the power bill.
+        </p>
+      </div>
+
+      <section>
+        <h2>projects</h2>
+        <ul class="projects">
+          {
+            projects.map((p) => (
+              <li>
+                <a class="name" href={p.url}>{p.title}</a>
+                {pending.has(p.key) && <span class="soon">going public</span>}
+                <p>{p.blurb}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <section>
+        <h2>links</h2>
+        <ul class="links">
+          {
+            links.map((l) => (
+              <li>
+                <a href={l.href}>{l.label}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <footer>
+        <p><a href="https://github.com/guygrigsby/grigsby.dev">source</a></p>
+      </footer>
+    </main>
+  </body>
+</html>

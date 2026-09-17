@@ -14,7 +14,7 @@ const SPACING_MS = 120
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
 
-async function getRepo(repo: string): Promise<ApiRepo> {
+async function getRepo(repo: string, pending: boolean): Promise<ApiRepo | null> {
   const headers: Record<string, string> = { 'user-agent': UA, accept: 'application/vnd.github+json' }
   if (process.env.GITHUB_TOKEN) headers.authorization = `Bearer ${process.env.GITHUB_TOKEN}`
 
@@ -23,8 +23,12 @@ async function getRepo(repo: string): Promise<ApiRepo> {
     if (res.ok) return (await res.json()) as ApiRepo
 
     // 404 on a public repo means it was renamed, deleted, or made private.
-    // Retrying will not change that; say so now.
-    if (res.status === 404) throw new Error(`${repo}: github says 404, is it renamed or private?`)
+    // Retrying will not change that; say so now. A pending repo is expected to
+    // 404 for any token that cannot see it, which is the normal CI case.
+    if (res.status === 404) {
+      if (pending) return null
+      throw new Error(`${repo}: github says 404, is it renamed or private?`)
+    }
     if (res.status < 429 && res.status !== 403) throw new Error(`${repo}: github returned ${res.status}`)
 
     const wait = retryDelayMs(res.headers, attempt)
@@ -36,8 +40,9 @@ async function getRepo(repo: string): Promise<ApiRepo> {
 }
 
 const repos: ApiRepo[] = []
-for (const { repo } of allowlist) {
-  repos.push(await getRepo(repo))
+for (const { repo, pending } of allowlist) {
+  const got = await getRepo(repo, pending !== undefined)
+  if (got) repos.push(got)
   await sleep(SPACING_MS)
 }
 

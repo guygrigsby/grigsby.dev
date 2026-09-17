@@ -48,3 +48,26 @@ describe('toSnapshot blurbs', () => {
     expect(toSnapshot([{ key: 'gyr', repo: 'gyr' }], repos).gyr.blurb).toBe('note: an agent daemon.')
   })
 })
+
+describe('toSnapshot pending repos', () => {
+  const rudy = { key: 'rudy', repo: 'rudy', pending: 'Coding agent harness in Go.' }
+
+  it('uses the local blurb for a repo that is not public yet', () => {
+    const got = toSnapshot([rudy], [])
+    expect(got.rudy).toEqual({
+      title: 'rudy',
+      blurb: 'Coding agent harness in Go.',
+      url: 'https://github.com/guygrigsby/rudy',
+    })
+  })
+
+  it('accepts a pending repo the api shows as still private', () => {
+    const repos = [{ name: 'rudy', description: null, html_url: 'https://github.com/guygrigsby/rudy', private: true }]
+    expect(toSnapshot([rudy], repos).rudy.blurb).toBe('Coding agent harness in Go.')
+  })
+
+  it('fails once the repo is public with a description, so the local blurb cannot linger', () => {
+    const repos = [{ name: 'rudy', description: 'Coding agent harness in Go.', html_url: 'u', private: false }]
+    expect(() => toSnapshot([rudy], repos)).toThrowError(/rudy is public/)
+  })
+})
