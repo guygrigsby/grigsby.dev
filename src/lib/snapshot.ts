@@ -36,10 +36,20 @@ export function toSnapshot(allow: readonly Allow[], repos: readonly ApiRepo[]): 
 
     snapshot[key.key] = {
       title: key.key,
-      blurb: (repo.description ?? '').trim(),
+      blurb: blurb(key.key, repo.description),
       url: repo.html_url,
     }
   }
 
   return snapshot
+}
+
+/** GitHub descriptions are written to be read next to the repo name, so they
+    often lead with it ("ago: a semantic edit protocol"). The page prints the
+    name already, so drop the echo and recapitalize what is left. */
+function blurb(key: string, description: string | null): string {
+  const text = (description ?? '').trim()
+  const prefix = new RegExp(`^${key}\\s*[:\u2014-]\\s*`, 'i')
+  const stripped = text.replace(prefix, '')
+  return stripped === text ? text : stripped.charAt(0).toUpperCase() + stripped.slice(1)
 }

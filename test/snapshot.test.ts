@@ -36,3 +36,15 @@ describe('toSnapshot', () => {
     expect(() => toSnapshot([{ key: 'nope', repo: 'nope' }], api)).toThrowError(/nope/)
   })
 })
+
+describe('toSnapshot blurbs', () => {
+  it('strips a leading "key:" from the description, since the page already shows the name', () => {
+    const repos = [{ name: 'agent-go', description: 'ago: a semantic edit protocol for Go.', html_url: 'u', private: false }]
+    expect(toSnapshot([{ key: 'ago', repo: 'agent-go' }], repos).ago.blurb).toBe('A semantic edit protocol for Go.')
+  })
+
+  it('leaves a description alone when the prefix is not the project name', () => {
+    const repos = [{ name: 'gyr', description: 'note: an agent daemon.', html_url: 'u', private: false }]
+    expect(toSnapshot([{ key: 'gyr', repo: 'gyr' }], repos).gyr.blurb).toBe('note: an agent daemon.')
+  })
+})

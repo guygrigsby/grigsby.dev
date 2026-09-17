@@ -1,0 +1,32 @@
+{
+  "ago": {
+    "title": "ago",
+    "blurb": "A semantic edit protocol for Go. Agents query the typechecked workspace and submit compiler-checked mutations instead of editing text.",
+    "url": "https://github.com/guygrigsby/agent-go"
+  },
+  "gputex": {
+    "title": "gputex",
+    "blurb": "",
+    "url": "https://github.com/guygrigsby/gputex"
+  },
+  "gyr": {
+    "title": "gyr",
+    "blurb": "The gyrfalcon is the largest falcon. gyr is an agent daemon for for local oversight.",
+    "url": "https://github.com/guygrigsby/gyr"
+  },
+  "lmkit": {
+    "title": "lmkit",
+    "blurb": "A small toolkit for training language models from scratch on a single machine: pretrain, anneal, SFT, tokenizer, eval, and experiment tracking.",
+    "url": "https://github.com/guygrigsby/lmkit"
+  },
+  "mlx-stack": {
+    "title": "mlx-stack",
+    "blurb": "Single-daemon supervisor + CLI for local MLX inference",
+    "url": "https://github.com/guygrigsby/mlx-stack"
+  },
+  "nevla": {
+    "title": "nevla",
+    "blurb": "A typed, error-handled front end over Python, with ML constructs as first-class citizens.",
+    "url": "https://github.com/guygrigsby/nevla"
+  }
+}
