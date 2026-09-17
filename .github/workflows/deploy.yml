@@ -1,0 +1,62 @@
+name: deploy
+
+on:
+  push:
+    branches: [main]
+  # A project repo pings this when its description changes:
+  #   gh api repos/guygrigsby/grigsby.dev/dispatches -f event_type=project-updated
+  repository_dispatch:
+    types: [project-updated]
+  schedule:
+    - cron: '17 13 * * 1'
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: make install
+
+      # GitHub is allowed to be down or throttled. The committed snapshot is
+      # the fallback, so a failed refresh ships yesterday's descriptions
+      # instead of failing the deploy.
+      - name: refresh project descriptions
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: make refresh
+
+      - name: commit the snapshot if it moved
+        run: |
+          if git diff --quiet src/data/repos.snapshot.json; then
+            echo "no description changes"
+            exit 0
+          fi
+          git config user.name "grigsby.dev bot"
+          git config user.email "noreply@grigsby.dev"
+          git commit -qm "refresh project descriptions" src/data/repos.snapshot.json
+          git push
+
+      - run: make lint
+      - run: make test
+      - run: npx playwright install --with-deps chromium
+      - run: make e2e
+
+      - name: deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
