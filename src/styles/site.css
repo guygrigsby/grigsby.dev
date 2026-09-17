@@ -19,8 +19,8 @@
   --border: #23262d;
   --text: #d8dbe0;
   --muted: #8b929c;
-  --accent: #e0a458;
-  --accent-dim: #8a6533;
+  --accent: #ff5c57;
+  --accent-dim: #8f3a38;
 
   --measure: 62ch;
   --step: 1.7rem;
@@ -35,8 +35,8 @@
     --border: #ddd8cf;
     --text: #23262d;
     --muted: #5f6570;
-    --accent: #8a5a12;
-    --accent-dim: #c39a5e;
+    --accent: #c1121f;
+    --accent-dim: #e08b85;
 
     color-scheme: light;
   }
