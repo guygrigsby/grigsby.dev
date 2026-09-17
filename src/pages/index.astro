@@ -2,6 +2,8 @@
 import { allowlist } from '../data/projects'
 import { selectProjects } from '../lib/projects'
 import snapshot from '../data/repos.snapshot.json'
+import { links } from '../data/links'
+import { encoded, markPath, spelled } from '../data/contact'
 import '../styles/site.css'
 
 const projects = selectProjects(
@@ -12,13 +14,6 @@ const projects = selectProjects(
 // A pending repo is linked before it is public, so say so rather than hand a
 // visitor a 404 with no explanation.
 const pending = new Set(allowlist.filter((a) => a.pending !== undefined).map((a) => a.key))
-
-const links = [
-  { label: 'github', href: 'https://github.com/guygrigsby' },
-  { label: 'linkedin', href: 'https://www.linkedin.com/in/guygrigsby' },
-  { label: 'x', href: 'https://x.com/usernamevalid' },
-  { label: 'aeryx.ai', href: 'https://aeryx.ai' },
-]
 
 const description =
   'Guy Grigsby. Software engineer in Denver. Builds the machinery agentic software runs on: harnesses, runtimes, oversight and compiler-checked edits.'
@@ -88,10 +83,31 @@ const description =
           {
             links.map((l) => (
               <li>
-                <a href={l.href}>{l.label}</a>
+                <a href={l.href} aria-label={l.showLabel ? undefined : l.label}>
+                  <svg class="mark" viewBox={l.viewBox} aria-hidden="true" focusable="false">
+                    <path d={l.path} fill="currentColor" />
+                  </svg>
+                  {l.showLabel && l.label}
+                </a>
               </li>
             ))
           }
+
+          <li>
+            <a class="email" href="#" data-u={encoded.user} data-d={encoded.domain} aria-label="email">
+              <svg class="mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path
+                  d={markPath}
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </a>
+            <noscript><span class="spelled">{spelled}</span></noscript>
+          </li>
         </ul>
       </section>
 
@@ -99,5 +115,14 @@ const description =
         <p><a href="https://github.com/guygrigsby/grigsby.dev">source</a></p>
       </footer>
     </main>
+
+    <script is:inline>
+      // The address is assembled here, never served. A crawler reading the HTML
+      // sees two base64 fragments and no mailto:.
+      for (const a of document.querySelectorAll('a.email')) {
+        const at = String.fromCharCode(64)
+        a.href = 'mailto:' + atob(a.dataset.u) + at + atob(a.dataset.d)
+      }
+    </script>
   </body>
 </html>

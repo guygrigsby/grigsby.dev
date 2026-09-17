@@ -23,7 +23,7 @@
   --accent-dim: #8a6533;
 
   --measure: 62ch;
-  --step: 1.5rem;
+  --step: 1.7rem;
 
   color-scheme: dark;
 }
@@ -51,7 +51,7 @@ body {
   padding: clamp(2.5rem, 8vw, 6rem) 1.25rem 4rem;
   background: var(--bg);
   color: var(--text);
-  font: 400 clamp(0.95rem, 0.9rem + 0.2vw, 1.05rem) / 1.65 Hack, ui-monospace, SFMono-Regular, Menlo, monospace;
+  font: 400 clamp(0.95rem, 0.9rem + 0.2vw, 1.05rem) / 1.85 Hack, ui-monospace, SFMono-Regular, Menlo, monospace;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -86,7 +86,7 @@ h1 .caret {
 }
 
 .role {
-  margin: 0.4rem 0 0;
+  margin: 0.55rem 0 0;
   color: var(--muted);
 }
 
@@ -101,7 +101,7 @@ h1 .caret {
 }
 
 .bio p {
-  margin: 0 0 0.9rem;
+  margin: 0 0 1.15rem;
 }
 
 section {
@@ -134,7 +134,7 @@ ul {
 }
 
 .projects li {
-  padding: 0.7rem 0;
+  padding: 0.95rem 0;
   border-bottom: 1px solid var(--border);
 }
 
@@ -147,7 +147,7 @@ ul {
 }
 
 .projects p {
-  margin: 0.15rem 0 0;
+  margin: 0.25rem 0 0;
   color: var(--muted);
   text-wrap: pretty;
 }
@@ -155,7 +155,13 @@ ul {
 .links {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.6rem 1.5rem;
+  align-items: center;
+  gap: 0.6rem 1.4rem;
+}
+
+/* A mark on its own needs a bigger target than a line of text gives it. */
+.links a {
+  padding: 0.35rem 0.1rem;
 }
 
 footer {
@@ -179,4 +185,20 @@ footer a {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   vertical-align: 0.1em;
+}
+
+.links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.mark {
+  width: 1.15em;
+  height: 1.15em;
+  flex: none;
+}
+
+.spelled {
+  color: var(--muted);
 }
