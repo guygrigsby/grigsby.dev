@@ -17,6 +17,21 @@ const pending = new Set(allowlist.filter((a) => a.pending !== undefined).map((a)
 
 const description =
   "Guy Grigsby. Software engineer in Denver. Works on Aperture, Tailscale's AI gateway, and builds tools for agentic software."
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@id': 'https://grigsby.dev/#person',
+  name: 'Guy Grigsby',
+  url: 'https://grigsby.dev/',
+  affiliation: {
+    '@type': 'Organization',
+    '@id': 'https://aeryx.ai/#organization',
+    name: 'aeryx',
+    legalName: 'Aeryx Industries LLC',
+    url: 'https://aeryx.ai/',
+    founder: { '@id': 'https://grigsby.dev/#person' },
+  },
+}
 ---
 
 <!doctype html>
@@ -35,6 +50,7 @@ const description =
     <meta property="og:description" content={description} />
     <meta property="og:url" content="https://grigsby.dev/" />
     <meta name="twitter:card" content="summary" />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(person)} />
   </head>
 
   <body>
@@ -55,6 +71,7 @@ const description =
           it, a daemon that turns issues into pull requests and an edit protocol that only lets
           compiler-checked changes reach disk.
         </p>
+        <p>Founded <a href="https://aeryx.ai/">aeryx</a>, a studio for agentic software.</p>
         <p>
           Before that, security products at HashiCorp. Worked on Vault. Led the launch and scaling
           of HCP Boundary.
